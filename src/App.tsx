@@ -1,11 +1,13 @@
-import { Button } from "@chakra-ui/react";
 import './App.css'
+import { BrowserRouter } from "react-router-dom";
+import { Router } from './router/Router';
 
 function App() {
   return (
     <>
-      <h1>Hello World</h1>
-      <Button>ボタン</Button>
+      <BrowserRouter>
+          <Router />
+      </BrowserRouter>
     </>
   );
 }
