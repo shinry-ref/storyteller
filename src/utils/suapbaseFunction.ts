@@ -10,7 +10,17 @@ export const getUser = async (id: string | undefined): Promise<User> => {
     throw new Error(response.error.message);
   }
 
-  return response.data[0];
+  const user = response.data[0];
+  const userData = User.newUser(
+                                user.id,
+                                user.name,
+                                user.description,
+                                user.github_id,
+                                user.qiita_id,
+                                user.x_id
+                              )
+
+  return userData;
 }
 
 export const getUserSkill = async (user_id: string | undefined): Promise<UserSkill> => {

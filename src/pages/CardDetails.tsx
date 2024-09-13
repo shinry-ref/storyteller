@@ -4,6 +4,7 @@ import { User } from "../domain/user";
 import { useEffect, useState } from "react";
 import { getAllSkills, getUser, getUserSkill } from "../utils/suapbaseFunction";
 import { Skill } from "../domain/skill";
+import { PrimaryLink } from "../components/atoms/PrimaryLink";
 
 export const CardDetails = () => {
   const { id } = useParams();
@@ -28,7 +29,7 @@ export const CardDetails = () => {
       }
     }
     getAllRecords();
-  }, []);
+  }, [id]);
 
   return (
     <>
@@ -41,9 +42,9 @@ export const CardDetails = () => {
           <p>名前：{user?.name}</p>
           <p>自己紹介：{user?.description}</p>
           <p>スキル：{skills?.map(skill => ( skill.name ))}</p>
-          <p>Github：{user?.github_id}</p>
-          <p>Qitta：{user?.qiita_id}</p>
-          <p>X：{user?.x_id}</p>
+          <PrimaryLink href={user?.github_id}>Github</PrimaryLink>
+          <PrimaryLink href={user?.qiita_id}>Qitta</PrimaryLink>
+          <PrimaryLink href={user?.x_id}>X</PrimaryLink>
         </div>
       )}
     </>
