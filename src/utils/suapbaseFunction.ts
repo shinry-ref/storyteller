@@ -33,7 +33,7 @@ export const getUserSkill = async (user_id: string | undefined): Promise<UserSki
   return response.data[0];
 }
 
-export const getAllSkills = async (skill_id: number | undefined): Promise<Skill[]> => {
+export const getSelectAllSkills = async (skill_id: number | undefined): Promise<Skill[]> => {
   const response = await supabase.from("skills").select("*").eq("id", skill_id);
 
   if (response.error) {
@@ -43,7 +43,15 @@ export const getAllSkills = async (skill_id: number | undefined): Promise<Skill[
   return response.data;
 }
 
+export const getAllSkills = async (): Promise<Skill[]> => {
+  const response = await supabase.from("skills").select("*");
 
+  if (response.error) {
+    throw new Error(response.error.message);
+  }
+
+  return response.data;
+}
 
 
 

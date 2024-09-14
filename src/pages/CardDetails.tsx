@@ -3,7 +3,7 @@ import { useParams } from "react-router-dom";
 import { User } from "../types/user";
 import { Skill } from "../types/skill";
 import { useEffect, useState } from "react";
-import { getAllSkills, getUser, getUserSkill } from "../utils/suapbaseFunction";
+import { getSelectAllSkills, getUser, getUserSkill } from "../utils/suapbaseFunction";
 import { PrimaryLink } from "../components/atoms/PrimaryLink";
 import { ImPower } from "react-icons/im";
 import { FaBookReader, FaGithub } from "react-icons/fa";
@@ -18,13 +18,13 @@ export const CardDetails = () => {
   const [loading, setLoading] = useState<boolean>(true);
 
   useEffect(() => {
-    const getAllRecords = async () =>{
+    const getAllNameCard = async () =>{
       setLoading(true);
       try {
         const newUser = await getUser(id);
         setUser(newUser);
         const userSkill = await getUserSkill(newUser.id);
-        const newSkills = await getAllSkills(userSkill.skill_id);
+        const newSkills = await getSelectAllSkills(userSkill.skill_id);
         setSkills(newSkills);
       } catch (error){
         console.error("Failed to fetch records:", error);
@@ -32,7 +32,7 @@ export const CardDetails = () => {
         setLoading(false);
       }
     }
-    getAllRecords();
+    getAllNameCard();
   }, [id]);
 
   return (
