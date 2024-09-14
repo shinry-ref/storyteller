@@ -51,7 +51,7 @@ export const CardDetails = () => {
               <Box>
                 <Text textAlign='center'><Icon as={FaBookReader} boxSize={4} /> 自己紹介</Text>
                 <Box height="1px" backgroundColor="gray.400" mb={2}/>
-                <Box bg='white' p={1} mb={4} borderRadius={4}>{user?.description}</Box>
+                <Box bg='white' p={1} mb={4} borderRadius={4} dangerouslySetInnerHTML={{__html: user?.description || '' }}></Box>
               </Box>
               <Box>
                 <Text textAlign='center'><Icon as={ImPower} boxSize={4} /> スキル</Text>
