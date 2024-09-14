@@ -1,9 +1,9 @@
-import { Center, Spinner } from "@chakra-ui/react";
+import { Center, Flex, Spinner } from "@chakra-ui/react";
 import { useParams } from "react-router-dom";
-import { User } from "../domain/user";
+import { User } from "../types/user";
 import { useEffect, useState } from "react";
 import { getAllSkills, getUser, getUserSkill } from "../utils/suapbaseFunction";
-import { Skill } from "../domain/skill";
+import { Skill } from "../types/skill";
 import { PrimaryLink } from "../components/atoms/PrimaryLink";
 
 export const CardDetails = () => {
@@ -20,7 +20,6 @@ export const CardDetails = () => {
         setUser(newUser);
         const userSkill = await getUserSkill(newUser.id);
         const newSkills = await getAllSkills(userSkill.skill_id);
-        console.log(newSkills)
         setSkills(newSkills);
       } catch (error){
         console.error("Failed to fetch records:", error);
@@ -38,14 +37,16 @@ export const CardDetails = () => {
         <Spinner data-testid="spinner" />
       </Center>
       ) : (
-        <div>
-          <p>名前：{user?.name}</p>
-          <p>自己紹介：{user?.description}</p>
-          <p>スキル：{skills?.map(skill => ( skill.name ))}</p>
-          <PrimaryLink href={user?.github_id}>Github</PrimaryLink>
-          <PrimaryLink href={user?.qiita_id}>Qitta</PrimaryLink>
-          <PrimaryLink href={user?.x_id}>X</PrimaryLink>
-        </div>
+        <Flex direction="column" alignItems="center" p={4}>
+          <div>
+            <p>名前：{user?.name}</p>
+            <p>自己紹介：{user?.description}</p>
+            <p>スキル：{skills?.map(skill => ( skill.name ))}</p>
+            <PrimaryLink href={user?.github_id}>Github</PrimaryLink>
+            <PrimaryLink href={user?.qiita_id}>Qitta</PrimaryLink>
+            <PrimaryLink href={user?.x_id}>X</PrimaryLink>
+          </div>
+        </Flex>
       )}
     </>
   );

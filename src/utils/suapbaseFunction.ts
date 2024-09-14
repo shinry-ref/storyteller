@@ -1,6 +1,6 @@
-import { Skill } from "../domain/skill";
-import { User } from "../domain/user";
-import { UserSkill } from "../domain/userSkill";
+import { Skill } from "../types/skill";
+import { User } from "../types/user";
+import { UserSkill } from "../types/userSkill";
 import { supabase } from "./supabase";
 
 export const getUser = async (id: string | undefined): Promise<User> => {
