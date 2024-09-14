@@ -42,7 +42,7 @@ export const CardDetails = () => {
         <Spinner data-testid="spinner" />
       </Center>
       ) : (
-        <Flex h='100vh' justify='center' align='center' p={4}>
+        <Flex h='100vh' justify='center' align='center' p={4} bg='gray.200'>
           <Card minH='200px' w='90vw' bg='cyan.100'>
             <CardBody>
               <Heading textAlign='center' as='h3' size='lg' mb={4}>
