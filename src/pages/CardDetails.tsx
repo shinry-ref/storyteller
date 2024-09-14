@@ -62,7 +62,7 @@ export const CardDetails = () => {
                 <Text textAlign='center'><Icon as={FaLink} boxSize={4} /> 外部リンク</Text>
                 <Box height="1px" backgroundColor="gray.400" mb={2}/>
                 <Box bg='white' borderRadius={4}>
-                  <Flex align="center"  justify="space-around">
+                  <Flex align="center"  justify="space-evenly">
                     <PrimaryLink href={user?.github_id}><Icon as={FaGithub} boxSize={6} /></PrimaryLink>
                     <PrimaryLink href={user?.qiita_id}><Icon as={SiQiita} boxSize={10} /></PrimaryLink>
                     <PrimaryLink href={user?.x_id}><Icon as={BsTwitterX} boxSize={4} /></PrimaryLink>
