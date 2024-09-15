@@ -1,8 +1,9 @@
-import { Box, Button, Card, CardBody, Flex, FormControl, FormErrorMessage, FormLabel, Heading, Input, Select, Textarea } from "@chakra-ui/react";
+import { Box, Button, Card, CardBody, Flex, FormControl, FormErrorMessage, FormLabel, Heading, Input, Select, Textarea, useToast } from "@chakra-ui/react";
 import { useEffect, useState } from "react";
 import { Skill } from "../types/skill";
 import { addUser, addUserSkill, getAllSkills } from "../utils/suapbaseFunction";
 import { useForm } from "react-hook-form";
+import { useNavigate } from "react-router-dom";
 
 type FormData = {
   userId: string;
@@ -17,7 +18,9 @@ type FormData = {
 export const CardRegister = () => {
   const [skills, setSkills] = useState<Skill[]>();
   const { register, handleSubmit, formState: { errors } } = useForm<FormData>();
-  const [loading, setLoading] = useState();
+  const [loading, setLoading] = useState<boolean>(false);
+  const navigate = useNavigate();
+  const toast = useToast();
   // const userId = watch('userId');
   // const name = watch('name');
   // const description = watch('description');
@@ -45,8 +48,23 @@ export const CardRegister = () => {
       await addUserSkill(data.userId, data.skill);
     } catch (error){
       console.error("error:", error);
+      toast({
+        title: "登録に失敗しました",
+        status: "error",
+        duration: 5000,
+        isClosable: true,
+        position: "top",
+      });
     } finally{
       setLoading(false);
+      navigate("/");
+      toast({
+        title: "登録に成功しました",
+        status: "success",
+        duration: 5000,
+        isClosable: true,
+        position: "top",
+      });
     }
   };
 
