@@ -55,22 +55,46 @@ export const getAllSkills = async (): Promise<Skill[]> => {
 
 
 
-export const addNameCard = async (title: string, time: number | undefined) => {
-  await supabase
-  .from('study-record-ver2')
-  .insert({ title: title, time: time  })
+export const addUser = async (user_id: string, name: string, description: string, github_id: string, qiita_id: string, x_id: string) => {
+  const response = await supabase
+  .from('users')
+  .insert({
+            id: user_id,
+            name: name,
+            description: description,
+            github_id: github_id,
+            qiita_id: qiita_id,
+            x_id: x_id
+          })
+
+  if (response.error) {
+    throw new Error(response.error.message);
+  }
 }
 
-export const deleteNameCard = async (id: number) => {
-  await supabase
-  .from('study-record-ver2')
-  .delete()
-  .eq('id', id)
+export const addUserSkill = async (user_id: string, skill_id: string) => {
+  const response = await supabase
+  .from('user_skill')
+  .insert({
+            user_id: user_id,
+            skill_id: skill_id
+          })
+
+  if (response.error) {
+    throw new Error(response.error.message);
+  }
 }
 
-export const updateNameCard = async (id: number, title: string, time: number) => {
-  await supabase
-  .from('study-record-ver2')
-  .update({ title: title, time: time })
-  .eq('id', id)
-}
+// export const deleteNameCard = async (id: number) => {
+//   await supabase
+//   .from('study-record-ver2')
+//   .delete()
+//   .eq('id', id)
+// }
+
+// export const updateNameCard = async (id: number, title: string, time: number) => {
+//   await supabase
+//   .from('study-record-ver2')
+//   .update({ title: title, time: time })
+//   .eq('id', id)
+// }

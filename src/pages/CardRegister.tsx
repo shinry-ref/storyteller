@@ -1,23 +1,30 @@
 import { Box, Button, Card, CardBody, Flex, FormControl, FormErrorMessage, FormLabel, Heading, Input, Select, Textarea } from "@chakra-ui/react";
 import { useEffect, useState } from "react";
 import { Skill } from "../types/skill";
-import { getAllSkills } from "../utils/suapbaseFunction";
-import { Form, useForm } from "react-hook-form";
+import { addUser, addUserSkill, getAllSkills } from "../utils/suapbaseFunction";
+import { useForm } from "react-hook-form";
 
 type FormData = {
   userId: string;
   name: string;
   description: string;
   skill: string;
+  githubId: string;
+  qiitaId: string;
+  xId: string;
 };
 
 export const CardRegister = () => {
   const [skills, setSkills] = useState<Skill[]>();
-  const { register, handleSubmit, formState: { errors }, reset, watch } = useForm<FormData>();
-  const userId = watch('userId');
-  const name = watch('name');
-  const description = watch('description');
-  const skill = watch('skill');
+  const { register, handleSubmit, formState: { errors } } = useForm<FormData>();
+  const [loading, setLoading] = useState();
+  // const userId = watch('userId');
+  // const name = watch('name');
+  // const description = watch('description');
+  // const skill = watch('skill');
+  // const githubId = watch('githubId');
+  // const qiitaId = watch('qiitaId');
+  // const xId = watch('xId');
 
   useEffect(() => {
     const getAllRecords = async () =>{
@@ -31,8 +38,16 @@ export const CardRegister = () => {
     getAllRecords();
   }, []);
 
-  const onSubmit = (data) => {
-    console.log(JSON.stringify(data))
+  const onSubmit = async (data: FormData) => {
+    setLoading(true);
+    try {
+      await addUser(data.userId, data.name, data.description, data.githubId, data.qiitaId, data.xId);
+      await addUserSkill(data.userId, data.skill);
+    } catch (error){
+      console.error("error:", error);
+    } finally{
+      setLoading(false);
+    }
   };
 
   return (
@@ -51,8 +66,8 @@ export const CardRegister = () => {
                   {...register("userId", {
                     required: "必須項目です",
                     pattern: {
-                      value: /^(?=.*[a-z])(?=.*-)[a-z-]+$/,
-                      message: "小文字の英字とハイフンをそれぞれ1文字以上含めてください"
+                      value: /^(?=.*[a-z])[a-z_]+$/,
+                      message: "小文字の英語含めてください(アンダースコアも可)"
                     }
                   })} />
                 <FormErrorMessage>{errors.userId?.message}</FormErrorMessage>
@@ -83,7 +98,7 @@ export const CardRegister = () => {
                       required: "必須項目です"
                     })} >
                     {skills?.map((skill) => (
-                      <option key={skill.id} value={skill.name}>{skill.name}</option>
+                      <option key={skill.id} value={skill.id}>{skill.name}</option>
                     ))}
                   </Select>
                 <FormErrorMessage>{errors.skill?.message}</FormErrorMessage>
@@ -92,6 +107,8 @@ export const CardRegister = () => {
                 <FormLabel>Github ID</FormLabel>
                 <Input
                   placeholder="github_id"
+                  {...register("githubId", {
+                  })}
                   />
                 <FormErrorMessage></FormErrorMessage>
               </FormControl>
@@ -99,6 +116,8 @@ export const CardRegister = () => {
                 <FormLabel>Qiita ID</FormLabel>
                 <Input
                   placeholder="qiita_id"
+                  {...register("qiitaId", {
+                  })}
                   />
                 <FormErrorMessage></FormErrorMessage>
               </FormControl>
@@ -106,11 +125,13 @@ export const CardRegister = () => {
                 <FormLabel>X ID</FormLabel>
                 <Input
                   placeholder="x_id"
+                  {...register("xId", {
+                  })}
                   />
                 <FormErrorMessage></FormErrorMessage>
               </FormControl>
             </CardBody>
-            <Button type="submit" colorScheme='teal' data-testid="submit" mx={4} mb={4}>登録</Button>
+            <Button isLoading={loading} type="submit" colorScheme='teal' data-testid="submit" mx={4} mb={4}>登録</Button>
           </Card>
         </form>
       </Flex>
