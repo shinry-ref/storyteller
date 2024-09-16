@@ -65,8 +65,8 @@ export const CardDetails = () => {
                 <Box bg='white' borderRadius={4}>
                   <Flex align="center"  justify="space-evenly">
                     <PrimaryLink href={user?.github_id}><Icon as={FaGithub} boxSize={6} data-testid="github"/></PrimaryLink>
-                    <PrimaryLink href={user?.qiita_id}><Icon as={SiQiita} boxSize={10} /></PrimaryLink>
-                    <PrimaryLink href={user?.x_id}><Icon as={BsTwitterX} boxSize={4} /></PrimaryLink>
+                    <PrimaryLink href={user?.qiita_id}><Icon as={SiQiita} boxSize={10} data-testid="qiita"/></PrimaryLink>
+                    <PrimaryLink href={user?.x_id}><Icon as={BsTwitterX} boxSize={4} data-testid="x"/></PrimaryLink>
                   </Flex>
                 </Box>
               </Box>

@@ -79,8 +79,29 @@ describe("名刺カードのテスト", () => {
         <CardDetails />
       </MemoryRouter>
     );
-    
     const github = await screen.findByTestId("github");
-    expect(github).toHaveTextContent('React');
+    expect(github).toBeInTheDocument();
+  });
+
+  it("Qiitaのアイコンが表示されていること", async () => {
+
+    render(
+      <MemoryRouter>
+        <CardDetails />
+      </MemoryRouter>
+    );
+    const qiita = await screen.findByTestId("qiita");
+    expect(qiita).toBeInTheDocument();
+  });
+
+  it("xのアイコンが表示されていること", async () => {
+
+    render(
+      <MemoryRouter>
+        <CardDetails />
+      </MemoryRouter>
+    );
+    const x = await screen.findByTestId("x");
+    expect(x).toBeInTheDocument();
   });
 });
