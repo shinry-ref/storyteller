@@ -70,12 +70,12 @@ export const CardRegister = () => {
 
   return (
     <>
-      <Flex justify='center' align='center' p={4} bg='gray.200'  flexDirection="column">
+      <Flex h='100vh' justify='center' align='center' p={4} bg='gray.200' flexDirection="column">
         <Box display='block'>
           <Heading textAlign='center' as='h3' size='lg' mb={4}>新規名刺登録</Heading>
         </Box>
         <form onSubmit={handleSubmit(onSubmit)}>
-          <Card w='90vw'>
+          <Card w='338px'>
             <CardBody>
               <FormControl mb={4} isInvalid={!!errors.userId}>
                 <FormLabel>英単語(ID) <span style={{ color: 'red' }}>*</span></FormLabel>

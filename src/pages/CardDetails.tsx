@@ -1,5 +1,5 @@
-import { Box, Card, CardBody, Center, Flex, Heading, Icon, Spinner, Text } from "@chakra-ui/react";
-import { useParams } from "react-router-dom";
+import { Box, Button, Card, CardBody, Center, Flex, Heading, Icon, Spinner, Text } from "@chakra-ui/react";
+import { useNavigate, useParams } from "react-router-dom";
 import { User } from "../types/user";
 import { Skill } from "../types/skill";
 import { useEffect, useState } from "react";
@@ -16,6 +16,7 @@ export const CardDetails = () => {
   const [user, setUser] = useState<User>();
   const [skills, setSkills] = useState<Skill[]>();
   const [loading, setLoading] = useState<boolean>(true);
+  const navigate = useNavigate();
 
   useEffect(() => {
     const getAllNameCard = async () =>{
@@ -42,8 +43,8 @@ export const CardDetails = () => {
         <Spinner data-testid="spinner" />
       </Center>
       ) : (
-        <Flex h='100vh' justify='center' align='center' p={4} bg='gray.200'>
-          <Card minH='200px' w='90vw' bg='cyan.100'>
+        <Flex h='100vh' justify='center' align='center' p={4} bg='gray.200' flexDirection="column">
+          <Card minH='200px' w='338px' bg='cyan.100'>
             <CardBody>
               <Heading textAlign='center' as='h3' size='lg' mb={4}>
                 {user?.name}
@@ -71,6 +72,7 @@ export const CardDetails = () => {
               </Box>
             </CardBody>
           </Card>
+          <Button onClick={() => navigate('/')} colorScheme='teal' w='338px' m={4} display='block'>戻る</Button>
         </Flex>
       )}
     </>
