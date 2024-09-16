@@ -72,7 +72,7 @@ export const CardDetails = () => {
               </Box>
             </CardBody>
           </Card>
-          <Button onClick={() => navigate('/')} colorScheme='teal' w='338px' m={4} display='block'>戻る</Button>
+          <Button onClick={() => navigate('/')} colorScheme='teal' w='338px' m={4} display='block' data-testid="back-button">戻る</Button>
         </Flex>
       )}
     </>

@@ -1,4 +1,4 @@
-import { render, screen } from "@testing-library/react";
+import { fireEvent, render, screen } from "@testing-library/react";
 import { CardDetails } from "../pages/CardDetails";
 import { getSelectAllSkills, getUser, getUserSkill } from "../utils/supabaseFunction";
 import { MemoryRouter } from "react-router-dom";
@@ -10,6 +10,12 @@ jest.mock('../utils/supabaseFunction', () => ({
   getAllSkills: jest.fn(),
   addUser: jest.fn(),
   addUserSkill: jest.fn(),
+}));
+
+const mockedNavigator = jest.fn();
+jest.mock('react-router-dom', () => ({
+  ...jest.requireActual('react-router-dom'),
+  useNavigate: () => mockedNavigator,
 }));
 
 describe("名刺カードのテスト", () => {
@@ -103,5 +109,19 @@ describe("名刺カードのテスト", () => {
     );
     const x = await screen.findByTestId("x");
     expect(x).toBeInTheDocument();
+  });
+
+  it("戻るボタンをクリックすると/に遷移すること", async () => {
+
+    render(
+      <MemoryRouter>
+        <CardDetails />
+      </MemoryRouter>
+    );
+
+    const backButton = await screen.findByTestId("back-button");
+    fireEvent.click(backButton);
+
+    expect(mockedNavigator).toHaveBeenCalledWith('/');
   });
 });
