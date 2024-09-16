@@ -47,4 +47,40 @@ describe("名刺カードのテスト", () => {
     const name = await screen.findByTestId("name");
     expect(name).toHaveTextContent('テスト太郎');
   });
+
+  it("自己紹介が表示されていること", async () => {
+
+    render(
+      <MemoryRouter>
+        <CardDetails />
+      </MemoryRouter>
+    );
+    
+    const description = await screen.findByTestId("description");
+    expect(description).toHaveTextContent('テスト太郎の自己紹介');
+  });
+
+  it("技術が表示されていること", async () => {
+
+    render(
+      <MemoryRouter>
+        <CardDetails />
+      </MemoryRouter>
+    );
+    
+    const skill = await screen.findByTestId("skill");
+    expect(skill).toHaveTextContent('React');
+  });
+
+  it("Githubアイコンが表示されていること", async () => {
+
+    render(
+      <MemoryRouter>
+        <CardDetails />
+      </MemoryRouter>
+    );
+    
+    const github = await screen.findByTestId("github");
+    expect(github).toHaveTextContent('React');
+  });
 });
