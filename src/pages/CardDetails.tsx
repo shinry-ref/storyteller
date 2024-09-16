@@ -3,7 +3,7 @@ import { useNavigate, useParams } from "react-router-dom";
 import { User } from "../types/user";
 import { Skill } from "../types/skill";
 import { useEffect, useState } from "react";
-import { getSelectAllSkills, getUser, getUserSkill } from "../utils/suapbaseFunction";
+import { getSelectAllSkills, getUser, getUserSkill } from "../utils/supabaseFunction";
 import { PrimaryLink } from "../components/atoms/PrimaryLink";
 import { ImPower } from "react-icons/im";
 import { FaBookReader, FaGithub } from "react-icons/fa";
@@ -46,7 +46,7 @@ export const CardDetails = () => {
         <Flex h='100vh' justify='center' align='center' p={4} bg='gray.200' flexDirection="column">
           <Card minH='200px' w='338px' bg='cyan.100'>
             <CardBody>
-              <Heading textAlign='center' as='h3' size='lg' mb={4}>
+              <Heading textAlign='center' as='h3' size='lg' mb={4}  data-testid="name">
                 {user?.name}
               </Heading>
               <Box>

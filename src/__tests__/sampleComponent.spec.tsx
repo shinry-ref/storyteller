@@ -1,9 +1,50 @@
-import App from "../App";
 import { render, screen } from "@testing-library/react";
+import { CardDetails } from "../pages/CardDetails";
+import { getSelectAllSkills, getUser, getUserSkill } from "../utils/supabaseFunction";
+import { MemoryRouter } from "react-router-dom";
+
+jest.mock('../utils/supabaseFunction', () => ({
+  getUser: jest.fn(),
+  getUserSkill: jest.fn(),
+  getSelectAllSkills: jest.fn(),
+  getAllSkills: jest.fn(),
+  addUser: jest.fn(),
+  addUserSkill: jest.fn(),
+}));
 
 describe("名刺カードのテスト", () => {
-  it("名前が表示されていること", () => {
-    render(<App />);
-    expect(screen.getByText("Hello World")).toBeInTheDocument();
+  (getUser as jest.Mock).mockResolvedValue(
+    { 
+      id: 'sample_id',
+      name: 'テスト太郎',
+      description: '<h1>テスト太郎の自己紹介</h1>' ,
+      github_id: 'github_id',
+      qiita_id: 'qiita_id',
+      x_id: 'x_id'
+    }
+  );
+  (getUserSkill as jest.Mock).mockResolvedValue(
+    { 
+      user_id: 'sample_id',
+      skii_id: 'テスト太郎',
+    }
+  );
+  (getSelectAllSkills as jest.Mock).mockResolvedValue(
+    [{ 
+      id: 1,
+      name: 'React',
+    }]
+  );
+
+  it("名前が表示されていること", async () => {
+
+    render(
+      <MemoryRouter>
+        <CardDetails />
+      </MemoryRouter>
+    );
+    
+    const name = await screen.findByTestId("name");
+    expect(name).toHaveTextContent('テスト太郎');
   });
 });

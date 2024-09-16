@@ -1,7 +1,7 @@
 import { Box, Button, Card, CardBody, Flex, FormControl, FormErrorMessage, FormLabel, Heading, Input, Select, Textarea, useToast } from "@chakra-ui/react";
 import { useEffect, useState } from "react";
 import { Skill } from "../types/skill";
-import { addUser, addUserSkill, getAllSkills } from "../utils/suapbaseFunction";
+import { addUser, addUserSkill, getAllSkills } from "../utils/supabaseFunction";
 import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
 

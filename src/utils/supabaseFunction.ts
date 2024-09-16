@@ -53,8 +53,6 @@ export const getAllSkills = async (): Promise<Skill[]> => {
   return response.data;
 }
 
-
-
 export const addUser = async (user_id: string, name: string, description: string, github_id: string, qiita_id: string, x_id: string) => {
   const response = await supabase
   .from('users')
@@ -84,17 +82,3 @@ export const addUserSkill = async (user_id: string, skill_id: string) => {
     throw new Error(response.error.message);
   }
 }
-
-// export const deleteNameCard = async (id: number) => {
-//   await supabase
-//   .from('study-record-ver2')
-//   .delete()
-//   .eq('id', id)
-// }
-
-// export const updateNameCard = async (id: number, title: string, time: number) => {
-//   await supabase
-//   .from('study-record-ver2')
-//   .update({ title: title, time: time })
-//   .eq('id', id)
-// }
