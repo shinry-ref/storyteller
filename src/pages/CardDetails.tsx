@@ -28,7 +28,7 @@ export const CardDetails = () => {
         const newSkills = await getSelectAllSkills(userSkill.skill_id);
         setSkills(newSkills);
       } catch (error){
-        console.error("Failed to fetch records:", error);
+        console.error("error:", error);
       } finally {
         setLoading(false);
       }
