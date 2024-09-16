@@ -1,4 +1,4 @@
-import { Box, Button, Card, CardBody, Flex, FormControl, FormErrorMessage, FormLabel, Heading, Input } from "@chakra-ui/react";
+import { Box, Button, Card, CardBody, Flex, FormControl, FormErrorMessage, FormLabel, Heading, Input, Link } from "@chakra-ui/react";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
@@ -14,7 +14,6 @@ export const TopSearch = () => {
 
   const onSubmit = async (data: FormData) => {
     setLoading(true);
-    console.log(data)
     navigate(`/cards/${data.userId}`);
     setLoading(false);
   };
@@ -41,9 +40,10 @@ export const TopSearch = () => {
                 <FormErrorMessage>{errors.userId?.message}</FormErrorMessage>
               </FormControl>
             </CardBody>
-            <Button isLoading={loading} type="submit" colorScheme='teal' data-testid="submit" mx={4} mb={4}>名刺検索</Button>
+            <Button isLoading={loading} type="submit" colorScheme='teal' data-testid="search" mx={4} mb={4}>名刺検索</Button>
           </Card>
         </form>
+        <Link onClick={() => navigate('/cards/register')} m={4} display='block'>新規登録はこちら</Link>
       </Flex>
     </>
   );

@@ -70,7 +70,7 @@ export const CardRegister = () => {
 
   return (
     <>
-      <Flex h='100vh' justify='center' align='center' p={4} bg='gray.200' flexDirection="column">
+      <Flex h='100%' justify='center' align='center' p={4} bg='gray.200' flexDirection="column">
         <Box display='block'>
           <Heading textAlign='center' as='h3' size='lg' mb={4}>新規名刺登録</Heading>
         </Box>
@@ -152,6 +152,7 @@ export const CardRegister = () => {
             <Button isLoading={loading} type="submit" colorScheme='teal' data-testid="submit" mx={4} mb={4}>登録</Button>
           </Card>
         </form>
+        <Button onClick={() => navigate('/')} colorScheme='teal' w='338px' m={4} display='block'>戻る</Button>
       </Flex>
     </>
   );
