@@ -72,7 +72,7 @@ export const CardRegister = () => {
     <>
       <Flex h='100%' justify='center' align='center' p={4} bg='gray.200' flexDirection="column">
         <Box display='block'>
-          <Heading textAlign='center' as='h3' size='lg' mb={4}>新規名刺登録</Heading>
+          <Heading textAlign='center' as='h3' size='lg' mb={4} data-testid="title">新規名刺登録</Heading>
         </Box>
         <form onSubmit={handleSubmit(onSubmit)}>
           <Card w='338px'>
@@ -112,6 +112,7 @@ export const CardRegister = () => {
                 <FormLabel>好きな技術 <span style={{ color: 'red' }}>*</span></FormLabel>
                   <Select
                     placeholder='選択してください'
+                    data-testid="skill-select"
                     {...register("skill", {
                       required: "必須項目です"
                     })} >
