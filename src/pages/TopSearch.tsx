@@ -22,7 +22,7 @@ export const TopSearch = () => {
     <>
       <Flex h='100vh' justify='center' align='center' p={4} bg='gray.200' flexDirection="column">
         <Box display='block'>
-          <Heading textAlign='center' as='h3' size='lg' mb={4}>デジタル名刺アプリ</Heading>
+          <Heading textAlign='center' as='h3' size='lg' mb={4} data-testid="title">デジタル名刺アプリ</Heading>
         </Box>
         <form onSubmit={handleSubmit(onSubmit)}>
           <Card minH='200px' w='338px' bg='white'>
@@ -37,13 +37,13 @@ export const TopSearch = () => {
                       message: "小文字の英語含めてください(アンダースコアも可)"
                     }
                   })} />
-                <FormErrorMessage>{errors.userId?.message}</FormErrorMessage>
+                <FormErrorMessage data-testid="user-id-error">{errors.userId?.message}</FormErrorMessage>
               </FormControl>
             </CardBody>
             <Button isLoading={loading} type="submit" colorScheme='teal' data-testid="search" mx={4} mb={4}>名刺検索</Button>
           </Card>
         </form>
-        <Link onClick={() => navigate('/cards/register')} m={4} display='block'>新規登録はこちら</Link>
+        <Link onClick={() => navigate('/cards/register')} m={4} display='block' data-testid="register">新規登録はこちら</Link>
       </Flex>
     </>
   );
