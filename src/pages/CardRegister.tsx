@@ -88,7 +88,7 @@ export const CardRegister = () => {
                       message: "小文字の英語含めてください(アンダースコアも可)"
                     }
                   })} />
-                <FormErrorMessage>{errors.userId?.message}</FormErrorMessage>
+                <FormErrorMessage data-testid="user-id-error">{errors.userId?.message}</FormErrorMessage>
               </FormControl>
               <FormControl mb={4} isInvalid={!!errors.name}>
                 <FormLabel>名前 <span style={{ color: 'red' }}>*</span></FormLabel>
@@ -97,7 +97,7 @@ export const CardRegister = () => {
                   {...register("name", {
                     required: "必須項目です"
                   })} />
-                <FormErrorMessage>{errors.name?.message}</FormErrorMessage>
+                <FormErrorMessage data-testid="name-error">{errors.name?.message}</FormErrorMessage>
               </FormControl>
               <FormControl mb={4} isInvalid={!!errors.description}>
                 <FormLabel>自己紹介 <span style={{ color: 'red' }}>*</span></FormLabel>
@@ -106,7 +106,7 @@ export const CardRegister = () => {
                   {...register("description", {
                     required: "必須項目です"
                   })} />
-                <FormErrorMessage>{errors.description?.message}</FormErrorMessage>
+                <FormErrorMessage data-testid="description-error">{errors.description?.message}</FormErrorMessage>
               </FormControl>
               <FormControl mb={4} isInvalid={!!errors.skill}>
                 <FormLabel>好きな技術 <span style={{ color: 'red' }}>*</span></FormLabel>
@@ -120,7 +120,7 @@ export const CardRegister = () => {
                       <option key={skill.id} value={skill.id}>{skill.name}</option>
                     ))}
                   </Select>
-                <FormErrorMessage>{errors.skill?.message}</FormErrorMessage>
+                <FormErrorMessage data-testid="skill-error">{errors.skill?.message}</FormErrorMessage>
               </FormControl>
               <FormControl mb={4}>
                 <FormLabel>Github ID</FormLabel>
