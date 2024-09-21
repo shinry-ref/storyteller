@@ -1,6 +1,5 @@
-import { Skill } from "../types/skill";
+import { story } from "../types/stories";
 import { User } from "../types/user";
-import { UserSkill } from "../types/userSkill";
 import { supabase } from "./supabase";
 
 export const getUser = async (id: string | undefined): Promise<User> => {
@@ -10,31 +9,11 @@ export const getUser = async (id: string | undefined): Promise<User> => {
     throw new Error(response.error.message);
   }
 
-  const user = response.data[0];
-  const userData = User.newUser(
-                                user.id,
-                                user.name,
-                                user.description,
-                                user.github_id,
-                                user.qiita_id,
-                                user.x_id
-                              )
-
-  return userData;
-}
-
-export const getUserSkill = async (user_id: string | undefined): Promise<UserSkill> => {
-  const response = await supabase.from("user_skill").select("*").eq("user_id", user_id);
-
-  if (response.error) {
-    throw new Error(response.error.message);
-  }
-
   return response.data[0];
 }
 
-export const getSelectAllSkills = async (skill_id: number | undefined): Promise<Skill[]> => {
-  const response = await supabase.from("skills").select("*").eq("id", skill_id);
+export const getStories = async (): Promise<story[]> => {
+  const response = await supabase.from("stories").select("*");
 
   if (response.error) {
     throw new Error(response.error.message);
@@ -43,26 +22,12 @@ export const getSelectAllSkills = async (skill_id: number | undefined): Promise<
   return response.data;
 }
 
-export const getAllSkills = async (): Promise<Skill[]> => {
-  const response = await supabase.from("skills").select("*");
-
-  if (response.error) {
-    throw new Error(response.error.message);
-  }
-
-  return response.data;
-}
-
-export const addUser = async (user_id: string, name: string, description: string, github_id: string, qiita_id: string, x_id: string) => {
+export const addUser = async (user_id: string, name: string) => {
   const response = await supabase
   .from('users')
   .insert({
             id: user_id,
-            name: name,
-            description: description,
-            github_id: github_id,
-            qiita_id: qiita_id,
-            x_id: x_id
+            name: name
           })
 
   if (response.error) {
@@ -70,12 +35,15 @@ export const addUser = async (user_id: string, name: string, description: string
   }
 }
 
-export const addUserSkill = async (user_id: string, skill_id: string) => {
+export const addStory = async (user_id: number, title: string, category_name: string, content: string, ai_content: string) => {
   const response = await supabase
-  .from('user_skill')
+  .from('stories')
   .insert({
             user_id: user_id,
-            skill_id: skill_id
+            title: title,
+            category_name: category_name,
+            content: content,
+            ai_content: ai_content
           })
 
   if (response.error) {
