@@ -1,3 +1,4 @@
+import { MemoryCalendar } from "../pages/MemoryCalendar";
 import { MemoryDetails } from "../pages/MemoryDetails";
 import { MemoryHome } from "../pages/MemoryHome";
 import { MemoryRegister } from "../pages/MemoryRegister";
@@ -23,5 +24,10 @@ export const MemoriesRoutes = [
     path: "/register",
     index: false,
     element: <MemoryRegister />,
+  },
+  {
+    path: "/calendar",
+    index: false,
+    element: <MemoryCalendar />,
   },
 ];

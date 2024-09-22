@@ -1,34 +1,36 @@
-import { Box, Button, Card, CardBody, Flex, FormControl, FormErrorMessage, FormLabel, Heading, Input, Textarea, useToast } from "@chakra-ui/react";
+import { Button, Card, CardBody, Flex, FormControl, FormErrorMessage, FormLabel, Heading, Input, Select, Textarea, useToast } from "@chakra-ui/react";
 import { useEffect, useState } from "react";
-import { addUser, addUserSkill } from "../utils/supabaseFunction";
+import { addStory, getUser } from "../utils/supabaseFunction";
 import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
+import { User } from "../types/user";
+import { createPrompt, startGemini } from "../utils/gemini";
 
 type FormData = {
-  userId: string;
-  name: string;
-  description: string;
-  skill: string;
-  githubId: string;
-  qiitaId: string;
-  xId: string;
+  title: string;
+  date: string;
+  category_name: string;
+  content: string;
 };
 
 export const MemoryRegister = () => {
   const { register, handleSubmit, formState: { errors } } = useForm<FormData>();
+  const [user, setUser] = useState<User>();
   const [loading, setLoading] = useState<boolean>(false);
   const navigate = useNavigate();
   const toast = useToast();
 
   useEffect(() => {
-    const getAllRecords = async () =>{
+    const getUserRecord = async () =>{
       try {
-        console.log('hoge')
+        const newUser = await getUser(1);
+        console.log(newUser)
+        setUser(newUser);
       } catch (error){
         console.error("Failed to fetch records:", error);
       }
     }
-    getAllRecords();
+    getUserRecord();
   }, []);
 
   const onSubmit = async (data: FormData) => {
@@ -36,7 +38,9 @@ export const MemoryRegister = () => {
     try {
       // await addUser(data.userId, data.name, data.description, data.githubId, data.qiitaId, data.xId);
       // await addUserSkill(data.userId, data.skill);
-      
+      const prompt = createPrompt(data.title, data.category_name, data.content);
+      const response = await startGemini(prompt);
+      await addStory(user?.id as number, data.date, data.title, data.category_name, data.content, response)
     } catch (error){
       console.error("error:", error);
       toast({
@@ -48,7 +52,7 @@ export const MemoryRegister = () => {
       });
     } finally{
       setLoading(false);
-      navigate("/");
+      navigate("/memories/home");
       toast({
         title: "登録に成功しました",
         status: "success",
@@ -62,76 +66,70 @@ export const MemoryRegister = () => {
   return (
     <>
       <Flex h='100vh' justify='center' align='center' p={4} bg='gray.200' flexDirection="column">
-        <Box display='block'>
-          <Heading textAlign='center' as='h3' size='lg' mb={4} data-testid="title">体験を記録</Heading>
-        </Box>
         <form onSubmit={handleSubmit(onSubmit)}>
           <Card w='338px'>
             <CardBody>
-              <FormControl mb={4} isInvalid={!!errors.userId}>
-                <FormLabel>英単語(ID) <span style={{ color: 'red' }}>*</span></FormLabel>
+              <Heading textAlign='center' as='h3' size='lg' mb={4} data-testid="title">体験を記録</Heading>
+              <FormControl mb={4} isInvalid={!!errors.title}>
+                <FormLabel>タイトル <span style={{ color: 'red' }}>*</span></FormLabel>
                 <Input
-                  placeholder="sample_id"
-                  {...register("userId", {
+                  placeholder="思い出"
+                  {...register("title", {
                     required: "必須項目です",
-                    pattern: {
-                      value: /^(?=.*[a-z])[a-z_]+$/,
-                      message: "小文字の英語含めてください(アンダースコアも可)"
-                    }
                   })} />
-                <FormErrorMessage data-testid="user-id-error">{errors.userId?.message}</FormErrorMessage>
+                <FormErrorMessage data-testid="user-id-error">{errors.title?.message}</FormErrorMessage>
               </FormControl>
-              <FormControl mb={4} isInvalid={!!errors.name}>
-                <FormLabel>名前 <span style={{ color: 'red' }}>*</span></FormLabel>
+              <FormControl mb={4} isInvalid={!!errors.date}>
+                <FormLabel>日時 <span style={{ color: 'red' }}>*</span></FormLabel>
                 <Input
-                  placeholder="山田 太郎"
-                  {...register("name", {
-                    required: "必須項目です"
-                  })} />
-                <FormErrorMessage data-testid="name-error">{errors.name?.message}</FormErrorMessage>
+                  type="date" // 日付選択を有効にする
+                  placeholder="日時"
+                  {...register("date", {
+                    required: "必須項目です",
+                  })}
+                />
+                <FormErrorMessage data-testid="user-id-error">{errors.date?.message}</FormErrorMessage>
               </FormControl>
-              <FormControl mb={4} isInvalid={!!errors.description}>
-                <FormLabel>自己紹介 <span style={{ color: 'red' }}>*</span></FormLabel>
+              <FormControl mb={4} isInvalid={!!errors.category_name}>
+                <FormLabel>カテゴリ <span style={{ color: 'red' }}>*</span></FormLabel>
+                <Select
+                  placeholder="カテゴリを選択"
+                  {...register("category_name", {
+                    required: "必須項目です"
+                  })}
+                >
+                  <option value="オリジナル">オリジナル</option>
+                  <option value="明るい">明るい</option>
+                  <option value="スカッとする">スカッとする</option>
+                  <option value="感動的">感動的</option>
+                  <option value="冒険的">冒険的</option>
+                  <option value="ロマンチック">ロマンチック</option>
+                  <option value="ノスタルジック">ノスタルジック</option>
+                  <option value="コメディ">コメディ</option>
+                  <option value="ミステリアス">ミステリアス</option>
+                </Select>
+                <FormErrorMessage data-testid="name-error">
+                  {errors.category_name?.message}
+                </FormErrorMessage>
+              </FormControl>
+              <FormControl mb={4} isInvalid={!!errors.content}>
+                <FormLabel>内容 <span style={{ color: 'red' }}>*</span></FormLabel>
                 <Textarea
-                  placeholder="<h1>好きな食べ物は〇〇です。</h1>"
-                  {...register("description", {
+                  placeholder="今日はランニング10kmしました。"
+                  {...register("content", {
                     required: "必須項目です"
                   })} />
-                <FormErrorMessage data-testid="description-error">{errors.description?.message}</FormErrorMessage>
+                <FormErrorMessage data-testid="description-error">{errors.content?.message}</FormErrorMessage>
               </FormControl>
-              <FormControl mb={4}>
-                <FormLabel>Github ID</FormLabel>
-                <Input
-                  placeholder="github_id"
-                  {...register("githubId", {
-                  })}
-                  />
-                <FormErrorMessage></FormErrorMessage>
-              </FormControl>
-              <FormControl mb={4}>
-                <FormLabel>Qiita ID</FormLabel>
-                <Input
-                  placeholder="qiita_id"
-                  {...register("qiitaId", {
-                  })}
-                  />
-                <FormErrorMessage></FormErrorMessage>
-              </FormControl>
-              <FormControl mb={4}>
-                <FormLabel>X ID</FormLabel>
-                <Input
-                  placeholder="x_id"
-                  {...register("xId", {
-                  })}
-                  />
-                <FormErrorMessage></FormErrorMessage>
-              </FormControl>
+              <Flex justify='space-between'>
+                <Button onClick={() => navigate('/memories/home')} colorScheme='gray' bg='gray.500' color='white' w='48%'>戻る</Button>
+                <Button isLoading={loading} type="submit" colorScheme='pink' data-testid="submit" w='48%'>登録</Button>
+              </Flex>
             </CardBody>
-            <Button isLoading={loading} type="submit" colorScheme='teal' data-testid="submit" mx={4} mb={4}>登録</Button>
           </Card>
         </form>
-        <Button onClick={() => navigate('/memories/home')} colorScheme='teal' w='338px' m={4} display='block'>戻る</Button>
       </Flex>
     </>
   );
+  
 };
