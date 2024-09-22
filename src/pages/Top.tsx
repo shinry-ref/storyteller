@@ -27,7 +27,7 @@ export const Top = () => {
               _hover={{ color: "yellow.400", textDecoration: "none" }} 
               data-testid="register"
             >
-              My Memory
+              My Memoryへ
             </Link>
           </CardBody>
         </Card>

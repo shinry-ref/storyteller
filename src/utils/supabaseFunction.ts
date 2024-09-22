@@ -22,6 +22,16 @@ export const getStories = async (): Promise<story[]> => {
   return response.data;
 }
 
+// export const getTimeCapsules = async (): Promise<story[]> => {
+//   const response = await supabase.from("stories").select("*");
+
+//   if (response.error) {
+//     throw new Error(response.error.message);
+//   }
+
+//   return response.data;
+// }
+
 export const getStory = async (id: number): Promise<story> => {
   const response = await supabase.from("stories").select("*").eq("id", id);
 

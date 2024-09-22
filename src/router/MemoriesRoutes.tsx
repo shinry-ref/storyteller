@@ -1,3 +1,4 @@
+import { MemoryAll } from "../pages/MemoryAll";
 import { MemoryCalendar } from "../pages/MemoryCalendar";
 import { MemoryDetails } from "../pages/MemoryDetails";
 import { MemoryHome } from "../pages/MemoryHome";
@@ -29,5 +30,10 @@ export const MemoriesRoutes = [
     path: "/calendar",
     index: false,
     element: <MemoryCalendar />,
+  },
+  {
+    path: "/all",
+    index: false,
+    element: <MemoryAll />,
   },
 ];

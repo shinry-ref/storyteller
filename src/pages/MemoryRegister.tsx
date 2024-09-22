@@ -38,7 +38,7 @@ export const MemoryRegister = () => {
     try {
       // await addUser(data.userId, data.name, data.description, data.githubId, data.qiitaId, data.xId);
       // await addUserSkill(data.userId, data.skill);
-      const prompt = createPrompt(data.title, data.category_name, data.content);
+      const prompt = createPrompt(user!.name, data.title, data.category_name, data.content);
       const response = await startGemini(prompt);
       await addStory(user?.id as number, data.date, data.title, data.category_name, data.content, response)
     } catch (error){
@@ -69,7 +69,7 @@ export const MemoryRegister = () => {
         <form onSubmit={handleSubmit(onSubmit)}>
           <Card w='338px'>
             <CardBody>
-              <Heading textAlign='center' as='h3' size='lg' mb={4} data-testid="title">体験を記録</Heading>
+              <Heading textAlign='center' as='h3' size='lg' mb={4} data-testid="title">思い出を記録</Heading>
               <FormControl mb={4} isInvalid={!!errors.title}>
                 <FormLabel>タイトル <span style={{ color: 'red' }}>*</span></FormLabel>
                 <Input

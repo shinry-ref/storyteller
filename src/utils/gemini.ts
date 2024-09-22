@@ -23,7 +23,7 @@ export async function startGemini(prompt:string) {
   return text;
 }
 
-export const createPrompt = (title: string, category: string, content: string) => {
+export const createPrompt = (name: string, title: string, category: string, content: string) => {
   let categoryInstructions = '';
 
   switch (category) {
@@ -62,6 +62,7 @@ export const createPrompt = (title: string, category: string, content: string) =
 タイトル: ${title}
 カテゴリ: ${category}
 内容: ${content}
+主人公:${name}
 
 以下の内容に基づいてストーリーを300文字で作成してください。出力はHTML形式としてください。
 
